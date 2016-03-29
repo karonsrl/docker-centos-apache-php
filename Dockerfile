@@ -50,6 +50,14 @@ RUN yum install -y httpd
 # Clean up, reduces container size
 RUN rm -rf /var/cache/yum/* && yum clean all
 
+# project root
+RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app/public /var/www/html
+
+# permission
+RUN usermod -u 1000 apache
+RUN groupmod -g 1000 apache
+RUN chown -R apache:apache /app
+
 # httpd conf
 COPY conf.d /etc/httpd/conf.d
 
@@ -63,5 +71,7 @@ ADD start-httpd.sh /start-httpd.sh
 RUN chmod +x start-httpd.sh -v
 
 EXPOSE 80 443
+
+WORKDIR /app
 
 CMD ["/start-httpd.sh"]
