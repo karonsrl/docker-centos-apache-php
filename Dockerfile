@@ -47,6 +47,16 @@ RUN yum install -y mysql
 
 RUN yum install -y httpd
 
+# node npm install
+
+RUN yum install nodejs npm -y --enablerepo=epel 
+RUN yum install install gcc gcc-c++ -y
+RUN npm install -g gulp
+
+# git install 
+
+RUN yum install -y git
+
 # Clean up, reduces container size
 RUN rm -rf /var/cache/yum/* && yum clean all
 
