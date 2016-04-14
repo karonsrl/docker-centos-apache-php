@@ -60,6 +60,12 @@ RUN yum install -y git
 # Clean up, reduces container size
 RUN rm -rf /var/cache/yum/* && yum clean all
 
+# debug
+## xdebug
+
+RUN pecl install xdebug
+RUN echo "zend_extension=/usr/lib64/php/modules/xdebug.so" > /etc/php.d/99-xdebug.ini
+
 # project root
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app/public /var/www/html
 
